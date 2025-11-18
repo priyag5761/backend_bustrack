@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<body>
+  <h2>Admin - Add Bus</h2>
+  <form id="busForm">
+    <input name="bus_id" placeholder="BUS101" required />
+    <input name="route_id" placeholder="R01" required />
+    <input name="registration_no" placeholder="KA01AB1234" required />
+    <input name="capacity" placeholder="40" type="number" />
+    <button type="submit">Add Bus</button>
+  </form>
+
+  <h2>Add Driver</h2>
+  <form id="driverForm">
+    <input name="driver_id" placeholder="DR01" required />
+    <input name="name" placeholder="Driver Name" required />
+    <input name="login_id" placeholder="login id" required />
+    <input name="password" placeholder="password" type="password" required />
+    <button type="submit">Add Driver</button>
+  </form>
+
+  <script>
+    const token = prompt("Enter admin token for demo"); // or hard-code for demonstration
+
+    document.getElementById('busForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const res = await fetch('/api/admin/bus', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(data)
+      });
+      alert((await res.json()).ok ? "Bus added" : "Error");
+    });
+
+    document.getElementById('driverForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const res = await fetch('/api/admin/driver', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(data)
+      });
+      alert((await res.json()).ok ? "Driver added" : "Error");
+    });
+  </script>
+</body>
+</html>
